@@ -23,6 +23,4 @@ def canUnlockAll(boxes):
             if locked_key not in visited:
                 unlocked.append(locked_key)
                 visited.add(locked_key)
-        if len(visited) == len(boxes):
-            return True
-    return False
+    return len(visited) == len(boxes);
