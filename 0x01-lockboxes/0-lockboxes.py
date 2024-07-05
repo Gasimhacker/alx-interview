@@ -20,7 +20,7 @@ def canUnlockAll(boxes):
     while (unlocked):
         key = unlocked.popleft()
         for locked_key in boxes[key]:
-            if locked_key not in visited:
+            if locked_key not in visited and locked_key < len(boxes):
                 unlocked.append(locked_key)
                 visited.add(locked_key)
-    return len(visited) == len(boxes);
+    return len(visited) == len(boxes)
