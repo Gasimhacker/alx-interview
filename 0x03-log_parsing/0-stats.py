@@ -34,23 +34,18 @@ def print_stats():
         for code, count in status_codes.items() if count > 0]
 
 
-def handler(signum, frame):
-    """Call print_stats again when ctrl+c is pressed"""
+try:
+    while True:
+        line = input()
+        count += 1
+        m = re.fullmatch(pattern, line)
+        if m:
+            status_code = m.group('status_code')
+            file_size = int(m.group('file_size'))
+            status_codes[status_code] += 1
+            total_size += file_size
+
+        if count % 10 == 0:
+            print_stats()
+except (KeyboardInterrupt, EOFError):
     print_stats()
-
-
-signal.signal(signal.SIGINT, handler)
-
-
-while True:
-    line = input()
-    count += 1
-    m = re.fullmatch(pattern, line)
-    if m:
-        status_code = m.group('status_code')
-        file_size = int(m.group('file_size'))
-        status_codes[status_code] += 1
-        total_size += file_size
-
-    if count % 10 == 0:
-        print_stats()
