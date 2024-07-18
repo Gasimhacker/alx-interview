@@ -8,7 +8,7 @@ import signal
 ip = r'(\d{3}\.){3}\d{3}'
 http_request = '"GET /projects/260 HTTP/1.1"'
 status_code_r = r'200|301|400|401|403|404|405|500'
-file_size_r = r'\d*'
+file_size_r = r'\d*$'
 date = r'\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d*\]'
 pattern = f'{ip} - {date} {http_request} {status_code_r} {file_size_r}'
 
@@ -22,9 +22,9 @@ count = 0
 
 def print_stats():
     """Print the stats after collecting it from stdin"""
-    print(f'File size: {total_size}')
-    [print(f'{code}: {count}') for code, count in status_codes.items()
-        if count > 0]
+    print(f'File size: {total_size}', flush=True)
+    [print(f'{code}: {count}', flush=True)
+        for code, count in status_codes.items() if count > 0]
 
 
 def handler(signum, frame):
