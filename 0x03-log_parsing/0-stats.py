@@ -5,12 +5,12 @@ import re
 import signal
 
 
-ip = r'(\d{1-3}\.){3}\d{1-3}'
+ip = r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}'
 http_request = r'\"GET /projects/260 HTTP/1.1\"'
-status_code_r = r' 200 | 301 | 400 | 401 | 403 | 404 | 405 | 500 '
-file_size_r = r'\d*$'
+status_code_r = r'(?P<status_code>200|301|400|401|403|404|405|500)'
+file_size_r = r'(?P<file_size>\d+)'
 date = r'\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6}\]'
-pattern = f'{ip} - {date} {http_request}{status_code_r}{file_size_r}'
+pattern = f'{ip} - {date} {http_request} {status_code_r} {file_size_r}'
 
 fp = (
         r'\s*(?P<ip>\S+)\s*',
@@ -42,9 +42,10 @@ def handler(signum, frame):
 signal.signal(signal.SIGINT, handler)
 
 
-for line in sys.stdin:
+while True:
+    line = input()
     count += 1
-    m = re.fullmatch(log_fmt, line)
+    m = re.fullmatch(pattern, line)
     if m:
         status_code = m.group('status_code')
         file_size = int(m.group('file_size'))
