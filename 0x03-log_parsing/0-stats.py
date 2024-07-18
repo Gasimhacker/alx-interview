@@ -7,10 +7,10 @@ import signal
 
 ip = r'(\d{3}\.){3}\d{3}'
 http_request = '"GET /projects/260 HTTP/1.1"'
-status_code_r = r'200|301|400|401|403|404|405|500'
+status_code_r = r' 200 | 301 | 400 | 401 | 403 | 404 | 405 | 500 '
 file_size_r = r'\d*$'
 date = r'\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d*\]'
-pattern = f'{ip} - {date} {http_request} {status_code_r} {file_size_r}'
+pattern = f'{ip} - {date} {http_request}{status_code_r}{file_size_r}'
 
 
 status_codes = {'200': 0, '301': 0, '400': 0, '401': 0,
@@ -39,7 +39,8 @@ for line in sys.stdin:
     count += 1
     m = re.search(pattern, line)
     if m:
-        status_code = re.search(status_code_r, line).group(0)
+        status_code = re.search(status_code_r, line).group(0).strip()
+        print(f'{line}, {status_code=}')
         file_size = int(re.search(file_size_r, line).group(0))
         status_codes[status_code] += 1
         total_size += file_size
