@@ -23,7 +23,8 @@ count = 0
 def print_stats():
     """Print the stats after collecting it from stdin"""
     print(f'File size: {total_size}')
-    [print(f'{code}: {count}') for code, count in status_codes.items()]
+    [print(f'{code}: {count}') for code, count in status_codes.items()
+        if count > 0]
 
 
 def handler(signum, frame):
