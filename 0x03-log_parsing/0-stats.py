@@ -47,7 +47,6 @@ for line in sys.stdin:
     m = re.fullmatch(log_fmt, line)
     if m:
         status_code = re.search(status_code_r, line).group(0).strip()
-        print(f'{line}, {status_code=}')
         file_size = int(re.search(file_size_r, line).group(0))
         status_codes[status_code] += 1
         total_size += file_size
