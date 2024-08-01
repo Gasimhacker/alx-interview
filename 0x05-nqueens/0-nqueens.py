@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """A module that solves the N Queens puzzle"""
 from sys import argv, exit
-from typing import List
 
 
 if (len(argv) != 2):
@@ -21,12 +20,12 @@ if (N < 4):
     exit(1)
 
 
-def solveNQueens(n: int) -> None:
+def solveNQueens(n):
     """Solve the N queens problem for n x n chess board"""
     board = [[0] * n for _ in range(n)]
-    pos_diag: set = set()
-    neg_diag: set = set()
-    cols: set = set()
+    pos_diag = set()
+    neg_diag = set()
+    cols = set()
 
     def backtrack(r):
         if (r == n):
