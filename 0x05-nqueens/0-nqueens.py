@@ -1,23 +1,23 @@
 #!/usr/bin/python3
 """A module that solves the N Queens puzzle"""
-from sys import argv, exit
+import sys
 
 
-if (len(argv) != 2):
+if (len(sys.argv) != 2):
     print('Usage: nqueens N')
-    exit(1)
+    sys.exit(1)
 
-arg = argv[1]
+arg = sys.argv[1]
 
 if (not arg.isdigit()):
     print('N must be a number')
-    exit(1)
+    sys.exit(1)
 
 N = int(arg)
 
 if (N < 4):
     print('N must be at least 4')
-    exit(1)
+    sys.exit(1)
 
 
 def solveNQueens(n):
