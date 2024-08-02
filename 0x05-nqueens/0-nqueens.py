@@ -1,61 +1,81 @@
 #!/usr/bin/python3
-"""A module that solves the N Queens puzzle"""
+"""
+0. N queens
+"""
 import sys
 
 
-if (len(sys.argv) != 2):
-    print('Usage: nqueens N')
-    sys.exit(1)
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print("Usage: nqueens N")
+        sys.exit(1)
 
-arg = sys.argv[1]
+    try:
+        n = int(sys.argv[1])
+    except ValueError:
+        print('N must be a number')
+        exit(1)
 
-if (not arg.isdigit()):
-    print('N must be a number')
-    sys.exit(1)
+    if n < 4:
+        print('N must be at least 4')
+        exit(1)
 
-N = int(arg)
+    solutions = []
+    placed_queens = []
+    stop = False
+    r = 0
+    c = 0
 
-if (N < 4):
-    print('N must be at least 4')
-    sys.exit(1)
+    while r < n:
+        goback = False
+        while c < n:
+            safe = True
+            for cord in placed_queens:
+                col = cord[1]
+                if(col == c or col + (r-cord[0]) == c or
+                        col - (r-cord[0]) == c):
+                    safe = False
+                    break
 
-def solveNQueens(n):
-    """Solve the N queens problem for n x n chess board
-
-    Args:
-        n (int): The number of queens
-    """
-    board = [[0] * n for _ in range(n)]
-    pos_diag = set()
-    neg_diag = set()
-    cols = set()
-
-    def backtrack(r):
-        """Perform the backtracking on row r
-
-        Args:
-            r (int): The current row
-        """
-        if (r == n):
-            res = []
-            [[res.append(c) for c in r if c] for r in board]
-            print(res)
-            return
-        for c in range(n):
-            if (c in cols or (r - c) in pos_diag
-                    or (r + c) in neg_diag):
+            if not safe:
+                if c == n - 1:
+                    goback = True
+                    break
+                c += 1
                 continue
 
-            board[r][c] = [r, c]
-            pos_diag.add(r - c)
-            neg_diag.add(r + c)
-            cols.add(c)
-            backtrack(r + 1)
-            pos_diag.remove(r - c)
-            neg_diag.remove(r + c)
-            cols.remove(c)
-            board[r][c] = 0
-        return
-    backtrack(0)
+            cords = [r, c]
+            placed_queens.append(cords)
+            if r == n - 1:
+                solutions.append(placed_queens[:])
+                for cord in placed_queens:
+                    if cord[1] < n - 1:
+                        r = cord[0]
+                        c = cord[1]
+                for i in range(n - r):
+                    placed_queens.pop()
+                if r == n - 1 and c == n - 1:
+                    placed_queens = []
+                    stop = True
+                r -= 1
+                c += 1
+            else:
+                c = 0
+            break
+        if stop:
+            break
+        if goback:
+            r -= 1
+            while r >= 0:
+                c = placed_queens[r][1] + 1
+                del placed_queens[r]
+                if c < n:
+                    break
+                r -= 1
+            if r < 0:
+                break
+            continue
+        r += 1
 
-solveNQueens(N)
+    for idx, val in enumerate(solutions):
+        print(val)
