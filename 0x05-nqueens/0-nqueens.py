@@ -28,6 +28,7 @@ def solveNQueens(n):
     cols = set()
 
     def backtrack(r):
+        """Perform the backtracking on row r"""
         if (r == n):
             res = []
             [[res.append(c) for c in r if c] for r in board]
