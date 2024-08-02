@@ -3,53 +3,52 @@
 import sys
 
 
-if (len(sys.argv) != 2):
-    print('Usage: nqueens N')
-    sys.exit(1)
+if __name__ == "__main__":
+    if (len(sys.argv) != 2):
+        print('Usage: nqueens N')
+        sys.exit(1)
 
-arg = sys.argv[1]
+    arg = sys.argv[1]
 
-if (not arg.isdigit()):
-    print('N must be a number')
-    sys.exit(1)
+    if (not arg.isdigit()):
+        print('N must be a number')
+        sys.exit(1)
 
-N = int(arg)
+    N = int(arg)
 
-if (N < 4):
-    print('N must be at least 4')
-    sys.exit(1)
+    if (N < 4):
+        print('N must be at least 4')
+        sys.exit(1)
 
+    def solveNQueens(n):
+        """Solve the N queens problem for n x n chess board"""
+        board = [[0] * n for _ in range(n)]
+        pos_diag = set()
+        neg_diag = set()
+        cols = set()
 
-def solveNQueens(n):
-    """Solve the N queens problem for n x n chess board"""
-    board = [[0] * n for _ in range(n)]
-    pos_diag = set()
-    neg_diag = set()
-    cols = set()
+        def backtrack(r):
+            """Perform the backtracking on row r"""
+            if (r == n):
+                res = []
+                [[res.append(c) for c in r if c] for r in board]
+                print(res)
+                return
+            for c in range(n):
+                if (c in cols or (r - c) in pos_diag
+                        or (r + c) in neg_diag):
+                    continue
 
-    def backtrack(r):
-        """Perform the backtracking on row r"""
-        if (r == n):
-            res = []
-            [[res.append(c) for c in r if c] for r in board]
-            print(res)
+                board[r][c] = [r, c]
+                pos_diag.add(r - c)
+                neg_diag.add(r + c)
+                cols.add(c)
+                backtrack(r + 1)
+                pos_diag.remove(r - c)
+                neg_diag.remove(r + c)
+                cols.remove(c)
+                board[r][c] = 0
             return
-        for c in range(n):
-            if (c in cols or (r - c) in pos_diag
-                    or (r + c) in neg_diag):
-                continue
+        backtrack(0)
 
-            board[r][c] = [r, c]
-            pos_diag.add(r - c)
-            neg_diag.add(r + c)
-            cols.add(c)
-            backtrack(r + 1)
-            pos_diag.remove(r - c)
-            neg_diag.remove(r + c)
-            cols.remove(c)
-            board[r][c] = 0
-        return
-    backtrack(0)
-
-
-solveNQueens(N)
+    solveNQueens(N)
