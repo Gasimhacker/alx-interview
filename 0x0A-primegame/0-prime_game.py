@@ -20,13 +20,13 @@ def SieveOfEratosthenes(n):
 
 def isWinner(x, nums):
     """Determine the winner of the prime game"""
+    if x is None or nums is None or x == 0 or nums == []:
+        return None
+
     Maria_num_wins = 0
     Ben_num_wins = 0
     max_num = max(nums[0:x])
     primes_arr = SieveOfEratosthenes(max_num)
-
-    if x is None or nums is None or x == 0 or nums == []:
-        return None
 
     for i in range(x):
         num_primes = primes_arr[nums[i]]
