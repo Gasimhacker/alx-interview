@@ -25,7 +25,7 @@ def isWinner(x, nums):
     max_num = max(nums[0:x])
     primes_arr = SieveOfEratosthenes(max_num)
 
-    if (not x) or (not nums):
+    if x is None or nums is None or x == 0 or nums == []:
         return None
 
     for i in range(x):
