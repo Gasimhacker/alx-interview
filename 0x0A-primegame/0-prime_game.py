@@ -8,13 +8,12 @@ def SieveOfEratosthenes(n):
     primes_array = [0 for i in range(n+1)]
     p = 2
     num_primes = 0
-    while (p <= n):
+    for p in range(2, n + 1):
         if (prime[p]):
             num_primes += 1
             for i in range(p * p, n+1, p):
                 prime[i] = False
         primes_array[p] = num_primes
-        p += 1
     return (primes_array)
 
 
@@ -39,3 +38,5 @@ def isWinner(x, nums):
         return 'Maria'
     if (Ben_num_wins > Maria_num_wins):
         return 'Ben'
+    else:
+        return None
