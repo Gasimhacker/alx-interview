@@ -20,7 +20,7 @@ def SieveOfEratosthenes(n):
 
 def isWinner(x, nums):
     """Determine the winner of the prime game"""
-    if x is None or nums is None or x == 0 or nums == []:
+    if (not x) or (not nums):
         return None
 
     Maria_num_wins = 0
